@@ -97,6 +97,8 @@ func (s *V2Ray) Init(home string) (err error) {
 func (s *V2Ray) Start() error {
 	s.cmd = exec.Command("v2ray", strings.Split(
 		fmt.Sprintf("run --config %s", s.configFilePath()), " ")...)
+	s.cmd.Env = os.Environ()
+	s.cmd.Env = append(s.cmd.Env, "V2RAY_VMESS_AEAD_FORCED=false")
 	s.cmd.Stdout = os.Stdout
 	s.cmd.Stderr = os.Stderr
 
@@ -140,7 +142,7 @@ func (s *V2Ray) statsServiceClient() (*grpc.ClientConn, statscommand.StatsServic
 	return conn, client, nil
 }
 
-func (s *V2Ray) AddPeer(data []byte) (result []byte, err error) {
+func (s *V2Ray) AddPeer(data []byte, transport []byte) (result []byte, err error) {
 	if len(data) != 1+16 {
 		return nil, errors.New("data length must be 17 bytes")
 	}
@@ -163,7 +165,7 @@ func (s *V2Ray) AddPeer(data []byte) (result []byte, err error) {
 	)
 
 	req := &proxymancommand.AlterInboundRequest{
-		Tag: proxy.Tag(),
+		Tag: string(transport),
 		Operation: serial.ToTypedMessage(
 			&proxymancommand.AddUserOperation{
 				User: &protocol.User{

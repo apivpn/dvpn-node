@@ -30,13 +30,32 @@ var (
             "streamSettings": {
                 "network": "{{ .VMess.Transport }}"
             },
-            "tag": "vmess"
+            "tag": "{{ .VMess.Transport }}"
+        },
+        {
+			"tag": "ws",
+            "port": "443",
+            "protocol": "vmess",
+            "streamSettings": {
+                "network": "ws",
+                "security": "tls",
+                "wsSettings": {
+                    "path": "/ws"
+                },
+                "tlsSettings": {
+                    "allowInsecure": true,
+                    "certificates": [
+                        {
+                            "certificateFile": "{{ .VMess.Cert }}",
+                            "keyFile": "{{ .VMess.Key }}"
+                        }
+                    ]
+                }
+            }
         }
     ],
     "log": {
-        "access": "none",
-        "error": "none",
-        "loglevel": "none"
+        "loglevel": "debug"
     },
     "outbounds": [
         {

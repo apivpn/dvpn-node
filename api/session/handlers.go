@@ -220,12 +220,12 @@ func HandlerAddSession(ctx *context.Context) gin.HandlerFunc {
 			}
 		}
 
-		result, err := ctx.Service().AddPeer(req.Key)
+		result, err := ctx.Service().AddPeer(req.Key, req.Transport)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, types.NewResponseError(10, err))
 			return
 		}
-		ctx.Log().Info("Added a new peer", "key", req.Body.Key, "count", ctx.Service().PeerCount())
+		ctx.Log().Info("Added a new peer", "key", req.Body.Key, "count", ctx.Service().PeerCount(), "transport", req.Transport)
 
 		ctx.Database().Model(
 			&types.Session{},

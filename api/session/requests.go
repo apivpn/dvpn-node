@@ -10,6 +10,7 @@ import (
 type RequestAddSession struct {
 	AccAddress sdk.AccAddress
 	Key        []byte
+	Transport  []byte
 	Signature  []byte
 
 	URI struct {
@@ -18,6 +19,7 @@ type RequestAddSession struct {
 	}
 	Body struct {
 		Key       string `json:"key"`
+		Transport string `json:"transport"`
 		Signature string `json:"signature"`
 	}
 }
@@ -36,6 +38,10 @@ func NewRequestAddSession(c *gin.Context) (req *RequestAddSession, err error) {
 		return nil, err
 	}
 	req.Key, err = base64.StdEncoding.DecodeString(req.Body.Key)
+	if err != nil {
+		return nil, err
+	}
+	req.Transport, err = base64.StdEncoding.DecodeString(req.Body.Transport)
 	if err != nil {
 		return nil, err
 	}

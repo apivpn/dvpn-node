@@ -2,7 +2,9 @@ package types
 
 import (
 	"bytes"
+	"github.com/cosmos/cosmos-sdk/client/flags"
 	"os"
+	"path"
 	"strings"
 	"text/template"
 
@@ -35,6 +37,8 @@ transport = "{{ .VMess.Transport }}"
 type VMessConfig struct {
 	ListenPort uint16 `json:"listen_port" mapstructure:"listen_port"`
 	Transport  string `json:"transport" mapstructure:"transport"`
+	Cert       string `json:"cert" mapstructure:"cert"`
+	Key        string `json:"key" mapstructure:"key"`
 }
 
 func NewVMessConfig() *VMessConfig {
@@ -42,8 +46,15 @@ func NewVMessConfig() *VMessConfig {
 }
 
 func (c *VMessConfig) WithDefaultValues() *VMessConfig {
+	var (
+		certFile = path.Join(viper.GetString(flags.FlagHome), "tls.crt")
+		keyFile  = path.Join(viper.GetString(flags.FlagHome), "tls.key")
+	)
+
 	c.ListenPort = utils.RandomPort()
 	c.Transport = "grpc"
+	c.Cert = certFile
+	c.Key = keyFile
 
 	return c
 }

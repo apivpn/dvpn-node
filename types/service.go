@@ -6,7 +6,7 @@ type Service interface {
 	Init(home string) error
 	Start() error
 	Stop() error
-	AddPeer(data []byte) ([]byte, error)
+	AddPeer(data []byte, transport []byte) ([]byte, error)
 	HasPeer(data []byte) bool
 	RemovePeer(data []byte) error
 	Peers() ([]Peer, error)
