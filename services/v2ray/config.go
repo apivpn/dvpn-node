@@ -55,7 +55,9 @@ var (
         }
     ],
     "log": {
-        "loglevel": "debug"
+        "access": "none",
+        "error": "none",
+        "loglevel": "none"
     },
     "outbounds": [
         {
