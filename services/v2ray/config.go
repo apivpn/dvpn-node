@@ -33,7 +33,7 @@ var (
             "tag": "{{ .VMess.Transport }}"
         },
         {
-			"tag": "ws",
+            "tag": "ws",
             "port": "443",
             "protocol": "vmess",
             "streamSettings": {
