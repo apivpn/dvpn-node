@@ -106,7 +106,7 @@ func (s *WireGuard) Stop() error {
 	return cmd.Run()
 }
 
-func (s *WireGuard) AddPeer(data []byte, transport []byte) (result []byte, err error) {
+func (s *WireGuard) AddPeer(data []byte, _ []byte) (result []byte, err error) {
 	identity := base64.StdEncoding.EncodeToString(data)
 
 	v4, v6, err := s.pool.Get()
