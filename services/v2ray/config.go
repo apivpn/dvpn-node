@@ -16,7 +16,7 @@ var (
     },
     "inbounds": [
         {
-            "listen": "127.0.0.1",
+            "listen": "0.0.0.0",
             "port": 23,
             "protocol": "dokodemo-door",
             "settings": {
