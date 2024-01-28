@@ -10,6 +10,7 @@ var (
     "api": {
         "services": [
             "HandlerService",
+            "SystemService",
             "StatsService"
         ],
         "tag": "api"
